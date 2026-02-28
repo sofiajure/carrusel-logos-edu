@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        /* Reseteo para eliminar cualquier espacio extra */
+        /* Reseteo para eliminar cualquier margen que cause cortes */
         * { 
             margin: 0; 
             padding: 0; 
@@ -13,14 +13,15 @@
 
         :root {
             --bg-color: #ffffff;
-            --slide-width: 150px; /* Espacio horizontal generoso por logo */
+            --logo-height: 50px;  /* ALTURA SOLICITADA */
+            --slide-width: 180px; /* Espacio horizontal para que logos de 50px de alto no se peguen */
             --logo-count: 20;
-            --speed: 60s;         /* Velocidad equilibrada */
+            --speed: 50s;         /* Velocidad ajustable */
         }
 
         html, body {
             width: 100%;
-            height: 80px;
+            height: 90px; /* Un poco más de altura para que el logo de 50px respire */
             background: var(--bg-color);
             overflow: hidden;
             display: flex;
@@ -29,25 +30,24 @@
 
         .slider {
             width: 100%;
-            height: 80px;
+            height: 90px;
             position: relative;
             display: flex;
             align-items: center;
             overflow: hidden;
-            /* Eliminamos los degradados laterales aquí */
         }
 
         .slide-track {
             display: flex;
             align-items: center;
-            /* Ancho exacto para que el bucle sea infinito sin saltos */
+            /* Ancho exacto: 180px * 40 logos */
             width: calc(var(--slide-width) * var(--logo-count) * 2);
             animation: scroll var(--speed) linear infinite;
         }
 
         .slide {
             width: var(--slide-width);
-            height: 80px;
+            height: 90px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -55,10 +55,9 @@
         }
 
         .slide img {
-            max-height: 40px; /* Altura máxima de 40px como pediste */
-            max-width: 110px; /* Ancho máximo para logos horizontales */
+            height: var(--logo-height) !important;
             width: auto;
-            height: auto;
+            max-width: 140px; /* Permite que logos horizontales se vean bien */
             filter: grayscale(100%);
             opacity: 0.6;
             transition: all 0.3s ease;
@@ -71,13 +70,11 @@
             transform: scale(1.1);
         }
 
-        /* Animación matemática para evitar el glitch/salto */
+        /* Animación matemática precisa para evitar el "salto" */
         @keyframes scroll {
             0% { transform: translateX(0); }
             100% { transform: translateX(calc(var(--slide-width) * var(--logo-count) * -1)); }
         }
-
-        /* Quitamos las secciones .slider::before y .slider::after que hacían el degradado */
     </style>
 </head>
 <body>
