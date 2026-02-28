@@ -2,39 +2,43 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        :root {
-            --bg-color: #ffffff;
-            --logo-height: 32px; /* Un poquito más pequeño para que respire mejor */
-            --spacing: 50px;     /* Espacio entre logos */
-            --speed: 40s;        /* VELOCIDAD MUCHO MÁS LENTA */
-        }
-
-        body {
+        /* RESETEO TOTAL: Quitamos cualquier margen del navegador */
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-color: #ffffff;
+            --logo-height: 30px; /* Tamaño seguro para que no toque bordes */
+            --spacing: 50px;     
+            --speed: 40s; 
+        }
+
+        html, body {
+            width: 150px;
+            height: 60px;
             background: var(--bg-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             overflow: hidden;
+            /* Alineación absoluta al inicio */
+            display: block; 
         }
 
         .slider {
             width: 150px;
-            height: 60px; 
+            height: 60px;
             position: relative;
+            display: flex;
+            align-items: center; /* Centra el logo verticalmente en esos 60px */
             overflow: hidden;
-            background: var(--bg-color);
         }
 
         .slide-track {
             display: flex;
             align-items: center;
             width: max-content;
-            /* Animación lineal e infinita */
             animation: scroll var(--speed) linear infinite;
             gap: var(--spacing);
         }
@@ -44,12 +48,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            height: 60px;
         }
 
         .slide img {
             height: var(--logo-height);
             width: auto;
-            max-width: 90px;
+            max-width: 80px;
             filter: grayscale(100%);
             opacity: 0.6;
             object-fit: contain;
@@ -57,27 +62,20 @@
 
         @keyframes scroll {
             0% { transform: translateX(0); }
-            /* Se desplaza exactamente la mitad (un bloque completo de 20 logos) */
             100% { transform: translateX(calc(-50% - (var(--spacing) / 2))); }
         }
 
-        /* Degradados laterales muy finos (20px) para que no tapen el logo central */
+        /* Degradados ajustados para no tapar el centro */
         .slider::before, .slider::after {
             content: "";
             height: 100%;
             position: absolute;
-            width: 20px; 
+            width: 15px;
             z-index: 2;
             pointer-events: none;
         }
-        .slider::before { 
-            left: 0; 
-            background: linear-gradient(to right, white, rgba(255,255,255,0)); 
-        }
-        .slider::after { 
-            right: 0; 
-            background: linear-gradient(to left, white, rgba(255,255,255,0)); 
-        }
+        .slider::before { left: 0; background: linear-gradient(to right, white, rgba(255,255,255,0)); }
+        .slider::after { right: 0; background: linear-gradient(to left, white, rgba(255,255,255,0)); }
     </style>
 </head>
 <body>
