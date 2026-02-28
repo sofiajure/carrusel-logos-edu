@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        /* 1. Reseteo total para evitar desplazamientos y cortes */
         * { 
             margin: 0; 
             padding: 0; 
@@ -13,16 +12,14 @@
 
         :root {
             --bg-color: #ffffff;
-            --slide-width: 120px; /* Espacio fijo por logo para evitar saltos */
-            --logo-count: 20;
-            --total-slides: 40;   /* 20 originales + 20 duplicados */
-            --speed: 80s;         /* Velocidad muy lenta y fluida */
+            --slide-width: 120px; /* Ancho fijo por cada logo */
+            --logo-count: 20;     /* Total de logos únicos */
+            --speed: 60s;         /* Velocidad suave para 400px de ancho */
         }
 
-        /* 2. Configuración del contenedor para que use el 100% del iframe */
         html, body {
             width: 100%;
-            height: 65px; /* Altura fija pequeña */
+            height: 70px;
             background: var(--bg-color);
             overflow: hidden;
             display: flex;
@@ -31,30 +28,25 @@
 
         .slider {
             width: 100%;
-            height: 65px;
+            height: 70px;
             position: relative;
             display: flex;
             align-items: center;
             overflow: hidden;
         }
 
-        /* 3. El riel de logos con cálculo matemático exacto */
+        /* Contenedor del riel */
         .slide-track {
             display: flex;
             align-items: center;
-            /* Ancho total: 120px * 40 logos = 4800px */
-            width: calc(var(--slide-width) * var(--total-slides));
+            /* El ancho es exactamente la suma de todos los logos (40 en total) */
+            width: calc(var(--slide-width) * var(--logo-count) * 2);
             animation: scroll var(--speed) linear infinite;
-        }
-
-        /* Pausa suave al pasar el mouse */
-        .slide-track:hover {
-            animation-play-state: paused;
         }
 
         .slide {
             width: var(--slide-width);
-            height: 65px;
+            height: 70px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -62,48 +54,40 @@
         }
 
         .slide img {
-            max-height: 32px; /* Altura segura para que no toque los bordes */
-            max-width: 85px;  /* Ancho seguro para logos horizontales */
+            max-height: 35px; /* Altura segura */
+            max-width: 85px;  /* Ancho seguro */
             width: auto;
             height: auto;
             filter: grayscale(100%);
             opacity: 0.6;
-            transition: all 0.3s ease;
-            object-fit: contain; /* Evita que el logo se deforme o se corte */
+            object-fit: contain;
+            /* Evita parpadeos en la animación */
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
         }
 
-        .slide img:hover {
-            filter: grayscale(0%);
-            opacity: 1;
-            transform: scale(1.1);
-        }
-
-        /* 4. Animación infinita sin saltos visuales */
+        /* ANIMACIÓN SIN GLITCH */
         @keyframes scroll {
-            0% { transform: translateX(0); }
+            0% { 
+                transform: translateX(0); 
+            }
             100% { 
-                /* Se desplaza exactamente la mitad del riel (los primeros 20 logos) */
+                /* Se desplaza exactamente el ancho de los 20 logos originales */
                 transform: translateX(calc(var(--slide-width) * var(--logo-count) * -1)); 
             }
         }
 
-        /* 5. Degradados laterales sutiles */
+        /* Degradados laterales proporcionales a 400px */
         .slider::before, .slider::after {
             content: "";
             height: 100%;
             position: absolute;
-            width: 25px;
+            width: 40px;
             z-index: 2;
             pointer-events: none;
         }
-        .slider::before { 
-            left: 0; 
-            background: linear-gradient(to right, white, rgba(255,255,255,0)); 
-        }
-        .slider::after { 
-            right: 0; 
-            background: linear-gradient(to left, white, rgba(255,255,255,0)); 
-        }
+        .slider::before { left: 0; background: linear-gradient(to right, white, rgba(255,255,255,0)); }
+        .slider::after { right: 0; background: linear-gradient(to left, white, rgba(255,255,255,0)); }
     </style>
 </head>
 <body>
