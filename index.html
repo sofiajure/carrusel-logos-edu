@@ -6,12 +6,9 @@
     <style>
         :root {
             --bg-color: #ffffff;
-            --logo-max-height: 40px;
-            --logo-max-width: 120px;
-            --spacing: 60px;
-            --speed: 35s;
-            /* AQUÍ LIMITAMOS EL ANCHO TOTAL DE LA VISTA */
-            --container-width: 900px; 
+            --logo-height: 35px; 
+            --spacing: 40px; /* Reducimos el espacio para que en 150px se vea más de un logo */
+            --speed: 15s;    /* Más rápido porque el recorrido es muy corto */
         }
 
         body {
@@ -19,17 +16,16 @@
             padding: 0;
             background: var(--bg-color);
             display: flex;
-            justify-content: center; /* Centra el carrusel horizontalmente */
+            justify-content: center;
             align-items: center;
             height: 100vh;
             overflow: hidden;
         }
 
         .slider {
-            /* En lugar de 100%, usamos el ancho limitado */
-            width: var(--container-width);
-            max-width: 95%; /* Para que en móviles no se desborde */
-            height: 80px; 
+            /* Forzamos el ancho a 150px */
+            width: 150px;
+            height: 60px; 
             position: relative;
             overflow: hidden;
             background: var(--bg-color);
@@ -41,35 +37,22 @@
             width: max-content;
             animation: scroll var(--speed) linear infinite;
             gap: var(--spacing);
-            padding-left: var(--spacing);
-        }
-
-        .slide-track:hover {
-            animation-play-state: paused;
         }
 
         .slide {
-            height: 80px; 
+            flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
         }
 
         .slide img {
-            height: auto;
+            height: var(--logo-height);
             width: auto;
-            max-height: var(--logo-max-height);
-            max-width: var(--logo-max-width);
+            max-width: 80px; /* Para que no desborde el mini contenedor */
             filter: grayscale(100%);
-            opacity: 0.6;
-            transition: all 0.3s ease;
+            opacity: 0.7;
             object-fit: contain;
-        }
-
-        .slide img:hover {
-            filter: grayscale(0%);
-            opacity: 1;
         }
 
         @keyframes scroll {
@@ -77,21 +60,26 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* Degradados laterales para que los logos no choquen con el borde del cuadro */
+        /* Degradados ajustados a 30px para un ancho de 150px */
         .slider::before, .slider::after {
             content: "";
             height: 100%;
             position: absolute;
-            width: 60px;
+            width: 30px; 
             z-index: 2;
             pointer-events: none;
         }
-        .slider::before { left: 0; background: linear-gradient(to right, white, rgba(255,255,255,0)); }
-        .slider::after { right: 0; background: linear-gradient(to left, white, rgba(255,255,255,0)); }
+        .slider::before { 
+            left: 0; 
+            background: linear-gradient(to right, white, rgba(255,255,255,0)); 
+        }
+        .slider::after { 
+            right: 0; 
+            background: linear-gradient(to left, white, rgba(255,255,255,0)); 
+        }
     </style>
 </head>
 <body>
-
     <div class="slider">
         <div class="slide-track">
             <div class="slide"><img src="1.svg"></div>
@@ -136,6 +124,5 @@
             <div class="slide"><img src="20.svg"></div>
         </div>
     </div>
-
 </body>
 </html>
