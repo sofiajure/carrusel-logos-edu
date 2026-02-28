@@ -6,9 +6,9 @@
     <style>
         :root {
             --bg-color: #ffffff;
-            --logo-height: 35px; 
-            --spacing: 40px; /* Reducimos el espacio para que en 150px se vea más de un logo */
-            --speed: 15s;    /* Más rápido porque el recorrido es muy corto */
+            --logo-height: 32px; /* Un poquito más pequeño para que respire mejor */
+            --spacing: 50px;     /* Espacio entre logos */
+            --speed: 40s;        /* VELOCIDAD MUCHO MÁS LENTA */
         }
 
         body {
@@ -23,7 +23,6 @@
         }
 
         .slider {
-            /* Forzamos el ancho a 150px */
             width: 150px;
             height: 60px; 
             position: relative;
@@ -35,6 +34,7 @@
             display: flex;
             align-items: center;
             width: max-content;
+            /* Animación lineal e infinita */
             animation: scroll var(--speed) linear infinite;
             gap: var(--spacing);
         }
@@ -49,23 +49,24 @@
         .slide img {
             height: var(--logo-height);
             width: auto;
-            max-width: 80px; /* Para que no desborde el mini contenedor */
+            max-width: 90px;
             filter: grayscale(100%);
-            opacity: 0.7;
+            opacity: 0.6;
             object-fit: contain;
         }
 
         @keyframes scroll {
             0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+            /* Se desplaza exactamente la mitad (un bloque completo de 20 logos) */
+            100% { transform: translateX(calc(-50% - (var(--spacing) / 2))); }
         }
 
-        /* Degradados ajustados a 30px para un ancho de 150px */
+        /* Degradados laterales muy finos (20px) para que no tapen el logo central */
         .slider::before, .slider::after {
             content: "";
             height: 100%;
             position: absolute;
-            width: 30px; 
+            width: 20px; 
             z-index: 2;
             pointer-events: none;
         }
