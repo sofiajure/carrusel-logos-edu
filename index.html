@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        /* Reseteo para eliminar cualquier espacio extra */
         * { 
             margin: 0; 
             padding: 0; 
@@ -12,14 +13,14 @@
 
         :root {
             --bg-color: #ffffff;
-            --slide-width: 120px; /* Ancho fijo por cada logo */
-            --logo-count: 20;     /* Total de logos únicos */
-            --speed: 60s;         /* Velocidad suave para 400px de ancho */
+            --slide-width: 150px; /* Espacio horizontal generoso por logo */
+            --logo-count: 20;
+            --speed: 60s;         /* Velocidad equilibrada */
         }
 
         html, body {
             width: 100%;
-            height: 70px;
+            height: 80px;
             background: var(--bg-color);
             overflow: hidden;
             display: flex;
@@ -28,25 +29,25 @@
 
         .slider {
             width: 100%;
-            height: 70px;
+            height: 80px;
             position: relative;
             display: flex;
             align-items: center;
             overflow: hidden;
+            /* Eliminamos los degradados laterales aquí */
         }
 
-        /* Contenedor del riel */
         .slide-track {
             display: flex;
             align-items: center;
-            /* El ancho es exactamente la suma de todos los logos (40 en total) */
+            /* Ancho exacto para que el bucle sea infinito sin saltos */
             width: calc(var(--slide-width) * var(--logo-count) * 2);
             animation: scroll var(--speed) linear infinite;
         }
 
         .slide {
             width: var(--slide-width);
-            height: 70px;
+            height: 80px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -54,40 +55,29 @@
         }
 
         .slide img {
-            max-height: 35px; /* Altura segura */
-            max-width: 85px;  /* Ancho seguro */
+            max-height: 40px; /* Altura máxima de 40px como pediste */
+            max-width: 110px; /* Ancho máximo para logos horizontales */
             width: auto;
             height: auto;
             filter: grayscale(100%);
             opacity: 0.6;
+            transition: all 0.3s ease;
             object-fit: contain;
-            /* Evita parpadeos en la animación */
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
         }
 
-        /* ANIMACIÓN SIN GLITCH */
+        .slide img:hover {
+            filter: grayscale(0%);
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        /* Animación matemática para evitar el glitch/salto */
         @keyframes scroll {
-            0% { 
-                transform: translateX(0); 
-            }
-            100% { 
-                /* Se desplaza exactamente el ancho de los 20 logos originales */
-                transform: translateX(calc(var(--slide-width) * var(--logo-count) * -1)); 
-            }
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(var(--slide-width) * var(--logo-count) * -1)); }
         }
 
-        /* Degradados laterales proporcionales a 400px */
-        .slider::before, .slider::after {
-            content: "";
-            height: 100%;
-            position: absolute;
-            width: 40px;
-            z-index: 2;
-            pointer-events: none;
-        }
-        .slider::before { left: 0; background: linear-gradient(to right, white, rgba(255,255,255,0)); }
-        .slider::after { right: 0; background: linear-gradient(to left, white, rgba(255,255,255,0)); }
+        /* Quitamos las secciones .slider::before y .slider::after que hacían el degradado */
     </style>
 </head>
 <body>
