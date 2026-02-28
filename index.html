@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrusel Logos 40px - 60px Spacing</title>
     <style>
         :root {
             --bg-color: #ffffff;
-            --logo-height: 40px;   /* Altura máxima del logo */
-            --spacing: 60px;       /* Espacio exacto entre logos */
-            --logo-count: 20;
+            --logo-max-height: 40px;  /* Altura máxima permitida */
+            --logo-max-width: 140px;  /* ¡MÁS ANCHO! Para que los horizontales respiren */
+            --spacing: 60px;          /* Espacio de 60px entre logos */
             --speed: 40s; 
         }
 
@@ -25,20 +24,19 @@
 
         .slider {
             width: 100%;
-            height: 80px; /* Contenedor compacto */
+            height: 100px; 
             position: relative;
             overflow: hidden;
-            background: var(--bg-color);
+            display: flex;
+            align-items: center;
         }
 
         .slide-track {
             display: flex;
             align-items: center;
-            /* El ancho se calcula sumando el espacio a cada logo */
-            /* Usamos un ancho estimado para el riel que soporte los 40 logos */
-            width: max-content; 
+            width: max-content;
             animation: scroll var(--speed) linear infinite;
-            gap: var(--spacing); /* AQUÍ SE DEFINE EL ESPACIO DE 60PX */
+            gap: var(--spacing);
             padding-left: var(--spacing);
         }
 
@@ -47,7 +45,8 @@
         }
 
         .slide {
-            height: 80px; 
+            /* Dejamos que el ancho sea automático según el logo */
+            height: 100px; 
             display: flex;
             align-items: center;
             justify-content: center;
@@ -55,14 +54,22 @@
         }
 
         .slide img {
-            height: var(--logo-height) !important;
-            width: auto; /* Mantiene la proporción */
-            max-width: 120px; 
+            /* CONFIGURACIÓN INTELIGENTE */
+            height: auto;
+            width: auto;
+            max-height: var(--logo-max-height);
+            max-width: var(--logo-max-width);
             
+            /* Esto evita que se corten los bordes redondos o finos */
+            padding: 5px; 
+            box-sizing: border-box;
+
             filter: grayscale(100%);
             opacity: 0.6;
             transition: all 0.3s ease;
-            object-fit: contain;
+            
+            /* Mantiene la integridad del SVG */
+            object-fit: contain; 
         }
 
         .slide img:hover {
@@ -71,13 +78,9 @@
             transform: scale(1.1);
         }
 
-        /* Animación ajustada para que el bucle sea fluido con gap */
         @keyframes scroll {
             0% { transform: translateX(0); }
-            100% { 
-                /* Se desplaza exactamente la mitad del contenedor (los primeros 20 logos + sus espacios) */
-                transform: translateX(-50%); 
-            }
+            100% { transform: translateX(-50%); }
         }
 
         /* Degradados laterales */
