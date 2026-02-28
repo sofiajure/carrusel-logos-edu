@@ -3,16 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrusel Logos Edu 50px</title>
     <style>
         :root {
             --bg-color: #ffffff;
-            --logo-width: 200px; /* Espacio horizontal para cada logo */
-            --logo-count: 20;    /* Tienes 20 logos del 1 al 20 */
-            --speed: 60s;        /* Al ser muchos logos, 60s es una velocidad suave */
+            /* Ancho de la celda: 50px del logo + 60px de espacio total (30 a cada lado) */
+            --logo-width: 110px; 
+            --logo-count: 20;
+            /* Velocidad más lenta para logos pequeños para que se alcancen a leer */
+            --speed: 40s; 
         }
 
         body {
             margin: 0;
+            padding: 0;
             background: var(--bg-color);
             display: flex;
             align-items: center;
@@ -22,55 +26,63 @@
 
         .slider {
             width: 100%;
-            height: 120px;
+            /* Altura reducida para que coincida con el tamaño de los logos */
+            height: 80px; 
             position: relative;
             overflow: hidden;
+            background: var(--bg-color);
         }
 
-        /* El riel contiene 40 imágenes (20 originales + 20 copias) */
         .slide-track {
             display: flex;
+            align-items: center;
             width: calc(var(--logo-width) * (var(--logo-count) * 2));
             animation: scroll var(--speed) linear infinite;
         }
 
-        /* Pausar al pasar el mouse (opcional, quítalo si prefieres que no pare) */
         .slide-track:hover {
             animation-play-state: paused;
         }
 
         .slide {
             width: var(--logo-width);
+            height: 80px; 
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 0 10px;
+            box-sizing: border-box;
         }
 
         .slide img {
-            width: 140px; /* Tamaño visual del logo */
+            /* TAMAÑO SOLICITADO */
+            max-width: 50px;
+            max-height: 50px;
+            width: auto;
             height: auto;
+            
             filter: grayscale(100%);
-            opacity: 0.5;
-            transition: 0.3s ease;
+            opacity: 0.6;
+            transition: all 0.3s ease;
         }
 
         .slide img:hover {
             filter: grayscale(0%);
             opacity: 1;
+            transform: scale(1.15);
         }
 
         @keyframes scroll {
             0% { transform: translateX(0); }
-            /* Se desplaza exactamente la mitad del ancho total */
             100% { transform: translateX(calc(var(--logo-width) * var(--logo-count) * -1)); }
         }
 
-        /* Degradado lateral para suavizar la entrada y salida */
+        /* Degradados laterales sutiles */
         .slider::before, .slider::after {
             content: "";
             height: 100%;
             position: absolute;
-            width: 150px;
+            width: 80px;
             z-index: 2;
             pointer-events: none;
         }
